@@ -1,0 +1,59 @@
+{% extends 'jegkan/base/base_for_jegkan.html' %}
+
+{% block content%}
+
+<div class="ui center aligned basic very padded segment">
+    <h1 class="ui header dividing">Velkommen {{user.username|title}}</h1>    
+    <div class="ui container left aligned">
+            
+                <h4 class="ui header">
+                    Rediger spørsmålene
+                </h4>
+
+        </div>
+<div class="ui container left aligned">
+     
+    <form class="ui form {% if form.errors %}error{% endif %}" method="post" >
+       {% csrf_token %}
+       {{ formset.management_form }}
+       {% for form in formset %}
+           {{ form.id }}
+           <ul>
+               <li>{{ form.question_text }}</li>
+               {% if formset.can_delete %}
+                <label>Slett: </label><span class= "ui form"> {{ form.DELETE }}</span>
+            {% endif %}
+           </ul>
+       {% endfor %}
+        <div class="ui form {% if form.errors %}error{% endif %}">
+            
+{% if form.question_text.errors %}
+                {% for error in form.question_text.errors %}
+                    {{ error|escape }}
+                {% endfor %}
+            {% endif %}
+
+    </div>
+   
+    <input type="submit" value="Update/Create" class="button"/>
+
+</form>
+
+</div>
+{% endblock %}
+
+
+<button type="submit" class="ui primary button">Submit</button>
+{{ formset.management_form }}
+
+    {% for form in formset %}
+
+    {{ form.question_text }}
+    {% endfor %}
+
+    {{ formset.management_form }}
+       {% for form in formset %}
+        {% for field in form %}
+            {{ field.label_tag }} {{ field }}
+            {% endfor %}
+        {% endfor %}

@@ -1,0 +1,43 @@
+{% extends "jegkan/base/base_for_jegkan.html" %}
+{% block title %}My page{% endblock %}
+
+{% block content %}
+<style>
+    form .field ul {
+        list-style: none;
+        padding: 0 1rem;
+    }
+
+    form .field li {
+        margin-bottom: 0.3rem;
+    }
+</style>
+<div class="ui center aligned basic very padded segment">
+    <h1 class="ui header dividing">Velkommen {{user.username|title}}</h1>
+    
+        <div class="ui basic padded segment left aligned">
+            
+                <h4 class="ui header">
+                    Start eller endre en evaluering
+                </h4>
+                
+                {% for question_category in question_categories %}
+                    
+                    
+                    <ul class="list">
+                        
+                        <li><a href="{% url 'jegkan:survey-submit' question_category.pk %}">Gå til evaluering i emnet {{question_category}}</a></li>
+                        <br>
+                        <p>Eller: </p>
+                        <li><a href="{% url 'jegkan:cat_results' question_category.pk %}">Se resultater emnet {{question_category}}</a></li>
+                    
+                        
+                        
+                        
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+{% endblock %}

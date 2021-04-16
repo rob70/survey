@@ -1,0 +1,29 @@
+{% extends 'jegkan/base/base_for_jegkan.html' %}
+
+{% block content%}
+<div class="ui center aligned basic very padded segment">
+    <h1 class="ui header dividing">Evaluering i fransk</h1>
+{% if topic_list %}
+    <ul>
+    {% for topic in topic_list %}
+    
+                    
+                    
+                    <ul class="list">
+                        
+                        <li><a href="{% url 'jegkan:survey-submit' topic.pk %}">Gå til evaluering i emnet {{topic}}</a></li>                        
+                        
+                        
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Ingen evalueringer er tilgjengelige.</p>
+{% endif %}
+    {% if user.is_authenticated %}
+     {% else %}
+    <h4 class="ui header">Vil du gjerne <a href="{% url 'jegkan:login' %}">logge inn</a>?</h4>
+{% endif %}
+{% endblock %}
+<li><a href="{{ category.get_absolute_url }}">{{ category.category_text }}</a></li>
+    {% for question_category in question_categories %}
+    {% endfor %}

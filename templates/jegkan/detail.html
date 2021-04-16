@@ -1,0 +1,44 @@
+{% extends 'jegkan/base/base_for_jegkan.html' %}
+
+{% block content%}
+<h1>{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{error_message}}
+
+</strong></p> {% endif %}
+<form action="{% url 'jegkan:vote' question.id %}" method="post">
+{% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="Submit">
+</form>
+<ul>
+
+    
+{% if evaluation %}
+    <li>{{ evaluation.0.evaluation }}</li>
+{% else %}
+    <li> Has not yet been evaluated</li>
+{% endif %}
+
+
+
+</ul>
+
+{% endblock %}
+
+
+{% comment %}
+<li>{{ evaluation.0.evaluation }}</li>
+{% if evaluation.evaluation %}
+    <li>{{ evaluation.evaluation }}</li>
+{% else %}
+<li> Has not yet been evaluated</li>
+{% endif %}
+</ul>
+
+
+
+{% for evaluation in question.evaluation_set.all %}
+    <li>{{ evaluation.evaluation }}</li>
+{% endfor %}
+{% endcomment %}

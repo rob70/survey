@@ -1,0 +1,26 @@
+{% extends 'jegkan/base/base_for_jegkan.html' %}
+
+{% block content%}
+<div class="ui center aligned basic very padded segment">
+    <h1 class="ui header dividing">Evaluering i fransk</h1>
+   
+    <div class="ui container left aligned">
+    {% if topic %}
+    
+<ul>
+    <h4 class="ui header">{{ topic.category_text }}<span><a href="{% url 'jegkan:manage_questions' topic.id %}"> Edit?</a></span></h4>
+   
+{% for question in topic.question_set.all %}
+    
+    <li>
+        {{question.question_text}}
+    </li>
+    {% endfor %}
+    
+    </ul>
+{% else %}
+    <p>No question categories are available.</p>
+{% endif %}
+</div>
+</div>
+{% endblock %}
