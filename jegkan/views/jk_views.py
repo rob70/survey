@@ -19,8 +19,7 @@ def index(request):
     else:
 
         """ Landing page anonymous users """
-        #topic_list = Topic.objects.order_by('-pub_date')[:5]
-        #context = {'topic_list': topic_list}
+        
         context = {}
     return render(request, 'jegkan/index.html', context)
 
@@ -50,7 +49,7 @@ def categorydetails(request, topic_id):
             'topic': topic,
         }
     except Topic.DoesNotExist:
-        print("topic does not exist")
+        
         raise Http404("Kan ikke finne den siden")
     return render(request, 'jegkan/categorydetails.html', context,)
 
@@ -62,15 +61,15 @@ def manage_questions(request, topic_id):
     topic = Topic.objects.get(pk=topic_id)
     QuestionInlineFormSet = inlineformset_factory(Topic, Question, fields=('question_text',))
     if request.method == "POST":
-        print(" request method = post")
+        
         formset = QuestionInlineFormSet(request.POST, request.FILES, instance=topic)
         if formset.is_valid():
-            print(" Formset is valid")
+            
             formset.save()
             # Do something. Should generally end with a redirect. For example:
             return HttpResponseRedirect(topic.get_absolute_url())
         else: 
-            print(formset.errors)
+            
     else:
         formset = QuestionInlineFormSet(instance=topic)
     return render(request, 'jegkan/managequestionswfields.html', {'formset': formset})
@@ -78,7 +77,7 @@ def manage_questions(request, topic_id):
 @login_required
 def submit(request, topic_id):
     """Testing Survey-taker submit their completed survey."""
-    print(" Start view ######################")
+    
     category = Topic.objects.get(pk=topic_id)
     user = request.user
     try:
@@ -110,10 +109,10 @@ def submit(request, topic_id):
     AnswerFormSet = formset_factory(AnswerForm, extra=len(questions)-len(evaluation_data))
     content = []
     if request.method == "POST":
-        print("###########POST-START###########")
+        
         formset = AnswerFormSet(request.POST, form_kwargs=form_kwargs)
         if formset.is_valid():
-            print("formset is valid")
+            
             content.append("formset is valid")
 
             # with transaction.atomic():
@@ -121,26 +120,20 @@ def submit(request, topic_id):
             x = 0
             for form in formset:
                 
-                print("loop number :", x )
+                
                 opt = form.cleaned_data.get("option")
                 q = questions[x]
-                print(" question q er: ", q.question_text)
+                
                 try:
                     evaluation_object = eva_obj[x]
                     evaluation_object.evaluation = opt
                     evaluation_object.save()
                 except IndexError:
                     e = Evaluation(question = q, user = user, evaluation = opt)
-                    e.save()
-
-
-
-                #print("form is: ", form)
-                print("option is :", opt)
-                #print(form.cleaned_data["option"])
+                    e.save()                
                 x = x+1
             for q, e in parent_child_merge:
-                print (q.question_text, e.evaluation)
+                
                 content.append(q)
                 content.append(e)
                 
@@ -152,7 +145,7 @@ def submit(request, topic_id):
         formset = AnswerFormSet(form_kwargs=form_kwargs, initial = evaluation_data)
     
     for form in formset:
-        print(form)
+        
     question_forms = zip(questions, formset)
         
     return render(

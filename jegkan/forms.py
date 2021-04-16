@@ -10,25 +10,13 @@ class EvaluateForm(forms.Form):
 
 class AnswerForm(forms.Form):
     
-    # *args brukes for et ubestemt antall argumenter uten keyword
+    
     def __init__(self, *args, **kwargs):
         for key, value in kwargs.items(): 
             print ("%s : %s" %(key, value)) 
-        # options are removed from the keyword arguments
-        # and returned to the options variable
-        # Reason: kwargs are - objects - and must be queried to get 
-        # field information
-        # The data goes from a django QuerySet to python set
-        # Why? Set is an unordered list 
-
-        # 1. options = kwargs.pop("options")
-        # print("Type of options is: ", type(options))
-        # Django class "QuerySet"
-        # 2. print("Options are: ", options)
-        # Options must be a list of Option objects
-        # 3. choices = {(o.pk, o.evaluation) for o in options}
         
-        # returns class: 'set' Set is unordered? 
+        
+        
         
         # Super
         super().__init__(*args, **kwargs)
